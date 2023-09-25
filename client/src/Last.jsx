@@ -23,7 +23,11 @@ const Last = () => {
     const newDate = new Date(selectedDate);
     newDate.setDate(selectedDate.getDate() + 7);
     setSelectedDate(newDate);
+  
+    // Reset the selectedTimes state to an empty object
+    setSelectedTimes({});
   };
+  
   const formatDate = (date) => {
     const dd = String(date.getDate()).padStart(2, "0");
     const mm = String(date.getMonth() + 1).padStart(2, "0");
@@ -107,6 +111,7 @@ const Last = () => {
 
   const [utc0, setUtc0] = useState(true);
   const [utc1, setUtc1] = useState(false);
+  
 
   const firstSift = [
     "8:00AM", "8:30AM", "9:00AM", "9:30AM", "10:00AM", "10:30AM", "11:00AM", "11:30AM"
@@ -155,6 +160,17 @@ const Last = () => {
     }
     setTimezone(selectedValue);
   };
+  const handleCheck = (formattedDate, timeValue) => {
+    // Check if formattedDate exists in selectedTimes
+    if (selectedTimes[formattedDate]) {
+      // Check if timeValue exists in the array for that formattedDate
+      if (selectedTimes[formattedDate].includes(timeValue)) {
+        return true; // Checkbox should be checked
+      }
+    }
+    return false; // Checkbox should not be checked
+  };
+  
 
   return (
     <div className="harsh">
@@ -213,6 +229,7 @@ const Last = () => {
                                 <div key={timeValue}>
                                   <input
                                     type="checkbox"
+                                    checked={handleCheck(formattedDate, timeValue)}
                                     onChange={() =>
                                       handleCheckboxChange(
                                         formattedDate,
@@ -229,6 +246,7 @@ const Last = () => {
                                 <div key={timeValue}>
                                   <input
                                     type="checkbox"
+                                    checked={handleCheck(formattedDate, timeValue)}
                                     onChange={() =>
                                       handleCheckboxChange(
                                         formattedDate,
@@ -249,6 +267,7 @@ const Last = () => {
                               <div key={timeValue}>
                                 <input
                                   type="checkbox"
+                                  checked={handleCheck(formattedDate, timeValue)}
                                   onChange={() =>
                                     handleCheckboxChange(
                                       formattedDate,
